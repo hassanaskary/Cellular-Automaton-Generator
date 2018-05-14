@@ -1,11 +1,11 @@
 package generator;
 
 public class Cell {
-    private final int width = 10;
+    private final int WIDTH = 10;
     private int x;
     private int y;
 
-    private int State;
+    private int state;
     private int previousState;
 
     int getX() {
@@ -15,7 +15,7 @@ public class Cell {
         return this.y;
     }
     int getState() {
-        return this.State;
+        return this.state;
     }
     int getPreviousState() {
         return this.previousState;
