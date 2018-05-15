@@ -1,7 +1,7 @@
 package generator;
 
 public class Cell {
-    private final int WIDTH = 10;
+    // private final int WIDTH = 10;
     private int x;
     private int y;
 
@@ -12,10 +12,14 @@ public class Cell {
     	this.x = x;
     	this.y = y;
     	this.state = state;
+    	this.nextState = 0;
     }
     
     Cell() {
-    	
+    	this.x = 0;
+    	this.y = 0;
+    	this.state = 0;
+    	this.nextState = 0;
     }
 
     int getX() {
@@ -27,7 +31,7 @@ public class Cell {
     int getState() {
         return this.state;
     }
-    int getnextState() {
+    int getNextState() {
         return this.nextState;
     }
 
