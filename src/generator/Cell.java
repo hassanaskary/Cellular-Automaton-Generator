@@ -6,7 +6,17 @@ public class Cell {
     private int y;
 
     private int state;
-    private int previousState;
+    private int nextState;
+    
+    Cell(int x, int y, int state) {
+    	this.x = x;
+    	this.y = y;
+    	this.state = state;
+    }
+    
+    Cell() {
+    	
+    }
 
     int getX() {
         return this.x;
@@ -17,8 +27,8 @@ public class Cell {
     int getState() {
         return this.state;
     }
-    int getPreviousState() {
-        return this.previousState;
+    int getnextState() {
+        return this.nextState;
     }
 
     void setX(int x) {
@@ -30,7 +40,7 @@ public class Cell {
     void setState(int state) {
         this.state = state;
     }
-    void setPreviousState(int previousState) {
-        this.previousState = previousState;
+    void setNextState(int nextState) {
+        this.nextState = nextState;
     }
 }
