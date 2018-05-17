@@ -7,11 +7,11 @@ import java.util.Random;
 
 public class GeneratorGUI {
     JFrame frame;
-    JPanel mainPanel, controlPanel, gridPanel;
-    ////////////////////////////////
+    JPanel controlPanel, gridPanel;
     JPanel[][] cellPanels;
-    /////////////////////////
     JButton runButton;
+
+    Generator
 
     GeneratorGUI() {
         init();
@@ -20,11 +20,7 @@ public class GeneratorGUI {
     void init() {
         frame = new JFrame("Cellular Automaton Generator");
         frame.setLayout(new BorderLayout());
-        /*
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        frame.add(mainPanel);
-        */
+
         controlPanel = new JPanel();
         gridPanel = new JPanel();
 
@@ -36,9 +32,8 @@ public class GeneratorGUI {
         runButton = new JButton("Run");
 
         controlPanel.add(runButton);
-        controlPanel.setBackground(Color.red);
+        controlPanel.setBackground(Color.lightGray);
 
-        //////////////////////////////////////////////////////////////////////
         Random rand = new Random();
         Border lineBorder = BorderFactory.createLineBorder(Color.blue, 5);
 
@@ -47,12 +42,10 @@ public class GeneratorGUI {
         for(int i = 0; i < 20; i++) {
             for(int j = 0; j < 20; j++) {
                 cellPanels[i][j] = new JPanel();
-                cellPanels[i][j].setBackground(Color.blue);
+                cellPanels[i][j].setBackground(new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
                 gridPanel.add(cellPanels[i][j]);
             }
         }
-
-        //////////////////////////////////////////////////////////////////////
 
         frame.setSize(505, 485);
         frame.setResizable(true);
