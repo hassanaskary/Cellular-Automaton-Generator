@@ -3,12 +3,13 @@ package generator;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.Random;
 
 public class GeneratorGUI {
     JFrame frame;
-    JPanel mainPanel, controlPanel;
+    JPanel mainPanel, controlPanel, gridPanel;
     ////////////////////////////////
-    JPanel panel;
+    JLabel[][] cellLabels;
     /////////////////////////
     JButton runButton;
 
@@ -22,18 +23,28 @@ public class GeneratorGUI {
         mainPanel.setLayout(new BorderLayout());
         frame.setContentPane(mainPanel);
         controlPanel = new JPanel();
-        panel = new JPanel();
-        panel.setLayout(new GridLayout(100, 100));
+        gridPanel = new JPanel();
+        gridPanel.setLayout(new GridLayout(100, 100));
         mainPanel.add(controlPanel, BorderLayout.WEST);
-        mainPanel.add(panel, BorderLayout.CENTER);
+        mainPanel.add(gridPanel, BorderLayout.CENTER);
         runButton = new JButton("Run");
         controlPanel.add(runButton);
         controlPanel.setBackground(Color.red);
         //////////////////////////////////////////////////////////////////////
-        JLabel label = new JLabel();
-        Border lineBorder = BorderFactory.createLineBorder(Color.black, 5);
-        label.setBorder(lineBorder);
-        panel.add(label);
+        gridPanel.setLayout(new GridLayout(50, 50, 20, 20));
+        Random rand = new Random();
+        Border lineBorder = BorderFactory.createLineBorder(Color.blue, 5);
+        cellLabels = new JLabel[100][100];
+        gridPanel.add(new JButton("helsjaf"), 0, 0);/*
+        for(int i = 0; i < 2; i++) {
+            for(int j = 0; j < 2; j++) {
+                cellLabels[i][j] = new JLabel();
+                cellLabels[i][j].setBorder(lineBorder);
+                cellLabels[i][j].setBackground(Color.blue);
+                cellLabels[i][j].setText("hello");
+                gridPanel.add(cellLabels[i][j]);
+            }
+        } */
         //////////////////////////////////////////////////////////////////////
 
         frame.setSize(1000,700);
