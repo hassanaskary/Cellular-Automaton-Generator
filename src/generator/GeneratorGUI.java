@@ -11,7 +11,7 @@ public class GeneratorGUI {
     JPanel[][] cellPanels;
     JButton runButton;
 
-    Generator
+    Generator generator = new Generator();
 
     GeneratorGUI() {
         init();
@@ -24,10 +24,12 @@ public class GeneratorGUI {
         controlPanel = new JPanel();
         gridPanel = new JPanel();
 
-        gridPanel.setLayout(new GridLayout(20, 20, 1, 1));
+        gridPanel.setLayout(new GridLayout(generator.getRows(), generator.getColumns(), 1, 1));
 
         frame.add(controlPanel, BorderLayout.WEST);
         frame.add(gridPanel, BorderLayout.CENTER);
+
+        gridPanel.setBackground(Color.darkGray);
 
         runButton = new JButton("Run");
 
@@ -35,14 +37,13 @@ public class GeneratorGUI {
         controlPanel.setBackground(Color.lightGray);
 
         Random rand = new Random();
-        Border lineBorder = BorderFactory.createLineBorder(Color.blue, 5);
 
-        cellPanels = new JPanel[20][20];
+        cellPanels = new JPanel[generator.getRows()][generator.getColumns()];
 
-        for(int i = 0; i < 20; i++) {
-            for(int j = 0; j < 20; j++) {
+        for(int i = 0; i < generator.getRows(); i++) {
+            for(int j = 0; j < generator.getColumns(); j++) {
                 cellPanels[i][j] = new JPanel();
-                cellPanels[i][j].setBackground(new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+                //cellPanels[i][j].setBackground(new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
                 gridPanel.add(cellPanels[i][j]);
             }
         }
@@ -51,5 +52,31 @@ public class GeneratorGUI {
         frame.setResizable(true);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        for(int i = 0; i < generator.getRows(); i++) {
+            for(int j = 0; j < generator.getColumns(); j++) {
+                cellPanels[10][10].setBackground(new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+                System.out.println("heloo "+ i);
+            }
+        }
+
+        //startGenerationDrawing();
+    }
+
+    private void startGenerationDrawing() {
+        while(true) {
+            for(int i = 0; i < generator.getRows(); i++) {
+                for(int j = 0; j < generator.getColumns(); j++) {
+                    if(generator.getGeneration(i, j) == 0) {
+                        cellPanels[i][j].setBackground(Color.black);
+                    }
+                    else if(generator.getGeneration(i, j) == 1) {
+                        cellPanels[i][j].setBackground(Color.white);
+                    }
+                }
+            }
+
+            generator.computeGeneration();
+        }
     }
 }

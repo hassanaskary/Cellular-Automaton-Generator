@@ -3,10 +3,10 @@ package generator;
 import java.util.Random;
 
 public class Generator {
-    Cell[][] grid;
+    private Cell[][] grid;
     
-    private int rows;
-    private int columns;
+    private final int ROWS = 20;
+    private final int COLUMNS = 20;
     
     private int neighbours;
     
@@ -19,17 +19,13 @@ public class Generator {
      */
     
     Generator() {
-    	rows = 20;
-    	columns = 20;
-    	grid = new Cell[rows][columns];
+    	grid = new Cell[ROWS][COLUMNS];
     	
-    	for(int i = 1; i < rows-1; i++) {
-    		for(int j = 1; j < columns-1; j++) {
+    	for(int i = 1; i < ROWS-1; i++) {
+    		for(int j = 1; j < COLUMNS-1; j++) {
     			grid[i][j] = new Cell(i, j, rand.nextInt(1));
     		}
     	}
-    	
-    	computeGeneration();
     }
     
     /*
@@ -49,9 +45,9 @@ public class Generator {
      * the automaton.
      */
     
-    void computeGeneration() {
-    	for(int i = 1; i < rows-1; i++) {
-    		for(int j = 1; j < columns-1; j++) {
+    public void computeGeneration() {
+    	for(int i = 1; i < ROWS-1; i++) {
+    		for(int j = 1; j < COLUMNS-1; j++) {
     			
     			for(int m = -1; m <= 1; m++) {
     				for(int n = -1; n <= 1; n++) {
@@ -85,11 +81,22 @@ public class Generator {
      * be done using the State variable.
      */
     
-    void transferStates() {
-    	for(int i = 1; i < rows-1; i++) {
-    		for(int j = 1; j < columns-1; j++) {
+    private void transferStates() {
+    	for(int i = 1; i < ROWS-1; i++) {
+    		for(int j = 1; j < COLUMNS-1; j++) {
     			grid[i][j].setState(grid[i][j].getNextState());
     		}
     	}
     }
+    
+    public int getGeneration(int i, int j) {
+    	return grid[i][j].getState();
+	}
+	
+	public int getRows() {
+    	return this.ROWS;
+	}
+	public int getColumns() {
+    	return this.COLUMNS;
+	}
 }
