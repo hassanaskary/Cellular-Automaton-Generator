@@ -9,7 +9,7 @@ public class GeneratorGUI {
     JFrame frame;
     JPanel mainPanel, controlPanel, gridPanel;
     ////////////////////////////////
-    JLabel[][] cellLabels;
+    JPanel[][] cellPanels;
     /////////////////////////
     JButton runButton;
 
@@ -19,36 +19,43 @@ public class GeneratorGUI {
 
     void init() {
         frame = new JFrame("Cellular Automaton Generator");
+        frame.setLayout(new BorderLayout());
+        /*
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        frame.setContentPane(mainPanel);
+        frame.add(mainPanel);
+        */
         controlPanel = new JPanel();
         gridPanel = new JPanel();
-        gridPanel.setLayout(new GridLayout(100, 100));
-        mainPanel.add(controlPanel, BorderLayout.WEST);
-        mainPanel.add(gridPanel, BorderLayout.CENTER);
+
+        gridPanel.setLayout(new GridLayout(20, 20, 1, 1));
+
+        frame.add(controlPanel, BorderLayout.WEST);
+        frame.add(gridPanel, BorderLayout.CENTER);
+
         runButton = new JButton("Run");
+
         controlPanel.add(runButton);
         controlPanel.setBackground(Color.red);
+
         //////////////////////////////////////////////////////////////////////
-        gridPanel.setLayout(new GridLayout(50, 50, 20, 20));
         Random rand = new Random();
         Border lineBorder = BorderFactory.createLineBorder(Color.blue, 5);
-        cellLabels = new JLabel[100][100];
-        gridPanel.add(new JButton("helsjaf"), 0, 0);/*
-        for(int i = 0; i < 2; i++) {
-            for(int j = 0; j < 2; j++) {
-                cellLabels[i][j] = new JLabel();
-                cellLabels[i][j].setBorder(lineBorder);
-                cellLabels[i][j].setBackground(Color.blue);
-                cellLabels[i][j].setText("hello");
-                gridPanel.add(cellLabels[i][j]);
+
+        cellPanels = new JPanel[20][20];
+
+        for(int i = 0; i < 20; i++) {
+            for(int j = 0; j < 20; j++) {
+                cellPanels[i][j] = new JPanel();
+                cellPanels[i][j].setBackground(Color.blue);
+                gridPanel.add(cellPanels[i][j]);
             }
-        } */
+        }
+
         //////////////////////////////////////////////////////////////////////
 
-        frame.setSize(1000,700);
-        frame.setResizable(false);
+        frame.setSize(505, 485);
+        frame.setResizable(true);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
