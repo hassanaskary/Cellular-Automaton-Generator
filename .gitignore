@@ -1,4 +1,7 @@
 /bin/
 .classpath
 .project
-
+/out
+/lib
+/.idea
+Cellular-Automaton-Generator.iml

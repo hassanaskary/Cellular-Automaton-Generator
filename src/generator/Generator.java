@@ -19,8 +19,8 @@ public class Generator {
      */
     
     Generator() {
-    	rows = 50;
-    	columns = 50;
+    	rows = 100;
+    	columns = 100;
     	grid = new Cell[rows][columns];
     	
     	for(int i = 1; i < rows-1; i++) {
