@@ -56,35 +56,36 @@ public class GeneratorGUI implements ActionListener {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //startGenerationDrawing();
+        while(true) {
+            startGenerationDrawing();
+            frame.validate();
+            frame.repaint();
+        }
     }
 
     private void startGenerationDrawing() {
-        //while(true) {
-            System.out.println("StartGenerationDrawing!!");
-            for(int i = 1; i < generator.getRows()-1; i++) {
-                for(int j = 1; j < generator.getColumns()-1; j++) {
-                    System.out.println("DRAWING!");
-                    if(generator.getGeneration(i, j) == 1) {
-                        System.out.println("BIRTH DRAWING!");
-                        cellPanels[i][j].setBackground(Color.black);
-                    }
-                    else if(generator.getGeneration(i, j) == 0) {
-                        System.out.println("DEATH DRAWING!");
-                        cellPanels[i][j].setBackground(Color.white);
-                    }
+        System.out.println("StartGenerationDrawing!!");
+        for(int i = 1; i < generator.getRows()-1; i++) {
+            for(int j = 1; j < generator.getColumns()-1; j++) {
+                System.out.println("DRAWING!");
+                if(generator.getGeneration(i, j) == 1) {
+                    System.out.println("BIRTH DRAWING!");
+                    cellPanels[i][j].setBackground(Color.black);
+                }
+                else if(generator.getGeneration(i, j) == 0) {
+                    System.out.println("DEATH DRAWING!");
+                    cellPanels[i][j].setBackground(Color.white);
                 }
             }
+        }
 
-            System.out.println("Going to computeGeneration!");
-            generator.computeGeneration();
-        //}
+        System.out.println("Going to computeGeneration!");
+        generator.computeGeneration();
     }
 
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == runButton) {
             System.out.println("Run Button Clicked!");
-            startGenerationDrawing();
         }
     }
 }
