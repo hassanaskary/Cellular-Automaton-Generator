@@ -1,17 +1,17 @@
 package generator;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
+import java.lang.Thread.*;
 
 public class GeneratorGUI implements ActionListener {
     JFrame frame;
     JPanel controlPanel, gridPanel;
     JPanel[][] cellPanels;
-    JButton runButton;
+    JButton runButton, stopButton;
+    Thread t;
 
     Generator generator = new Generator();
 
@@ -34,32 +34,41 @@ public class GeneratorGUI implements ActionListener {
         gridPanel.setBackground(Color.darkGray);
 
         runButton = new JButton("Run");
+        stopButton = new JButton("Stop");
         runButton.addActionListener(this);
+        stopButton.addActionListener(this);
 
         controlPanel.add(runButton);
+        controlPanel.add(stopButton);
         controlPanel.setBackground(Color.lightGray);
-
-        Random rand = new Random();
 
         cellPanels = new JPanel[generator.getRows()][generator.getColumns()];
 
         for(int i = 0; i < generator.getRows(); i++) {
             for(int j = 0; j < generator.getColumns(); j++) {
                 cellPanels[i][j] = new JPanel();
-                //cellPanels[i][j].setBackground(new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
                 gridPanel.add(cellPanels[i][j]);
             }
         }
 
-        frame.setSize(505, 485);
+        frame.setSize(600, 485);
         frame.setResizable(true);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        t = new Thread();
 
         while(true) {
             startGenerationDrawing();
             frame.validate();
             frame.repaint();
+            try{
+                t.sleep(70);
+            }
+            catch(Exception e) {
+                e.getMessage();
+                e.getStackTrace();
+            }
         }
     }
 
@@ -86,6 +95,9 @@ public class GeneratorGUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == runButton) {
             System.out.println("Run Button Clicked!");
+        }
+        if(e.getSource() == stopButton) {
+            System.out.println("Stop Button Clicked!");
         }
     }
 }
