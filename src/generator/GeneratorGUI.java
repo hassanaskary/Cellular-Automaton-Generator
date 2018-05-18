@@ -3,9 +3,11 @@ package generator;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
-public class GeneratorGUI {
+public class GeneratorGUI implements ActionListener {
     JFrame frame;
     JPanel controlPanel, gridPanel;
     JPanel[][] cellPanels;
@@ -32,6 +34,7 @@ public class GeneratorGUI {
         gridPanel.setBackground(Color.darkGray);
 
         runButton = new JButton("Run");
+        runButton.addActionListener(this);
 
         controlPanel.add(runButton);
         controlPanel.setBackground(Color.lightGray);
@@ -53,30 +56,35 @@ public class GeneratorGUI {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        for(int i = 0; i < generator.getRows(); i++) {
-            for(int j = 0; j < generator.getColumns(); j++) {
-                cellPanels[10][10].setBackground(new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
-                System.out.println("heloo "+ i);
-            }
-        }
-
         //startGenerationDrawing();
     }
 
     private void startGenerationDrawing() {
-        while(true) {
-            for(int i = 0; i < generator.getRows(); i++) {
-                for(int j = 0; j < generator.getColumns(); j++) {
-                    if(generator.getGeneration(i, j) == 0) {
+        //while(true) {
+            System.out.println("StartGenerationDrawing!!");
+            for(int i = 1; i < generator.getRows()-1; i++) {
+                for(int j = 1; j < generator.getColumns()-1; j++) {
+                    System.out.println("DRAWING!");
+                    if(generator.getGeneration(i, j) == 1) {
+                        System.out.println("BIRTH DRAWING!");
                         cellPanels[i][j].setBackground(Color.black);
                     }
-                    else if(generator.getGeneration(i, j) == 1) {
+                    else if(generator.getGeneration(i, j) == 0) {
+                        System.out.println("DEATH DRAWING!");
                         cellPanels[i][j].setBackground(Color.white);
                     }
                 }
             }
 
+            System.out.println("Going to computeGeneration!");
             generator.computeGeneration();
+        //}
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == runButton) {
+            System.out.println("Run Button Clicked!");
+            startGenerationDrawing();
         }
     }
 }
