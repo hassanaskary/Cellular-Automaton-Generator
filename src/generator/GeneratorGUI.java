@@ -2,48 +2,40 @@ package generator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.Thread.*;
 
-public class GeneratorGUI implements ActionListener {
+public class GeneratorGUI {
     JFrame frame;
-    JPanel controlPanel, gridPanel;
+    JPanel gridPanel;
     JPanel[][] cellPanels;
-    JButton runButton, stopButton;
-    /////////////////////////////////////////////////////
-    Thread timeDelay, generatorThread;
-    private volatile boolean runStatus;
-    /////////////////////////////////////////////////////
 
     Generator generator = new Generator();
+
+    Thread t;
+
+    /*
+     * This is the constructor. It call a function init()
+     */
 
     GeneratorGUI() {
         init();
     }
 
+    /*
+     * This is the init() function which handles all the GUI
+     * related processing of the program.
+     */
+
     void init() {
         frame = new JFrame("Cellular Automaton Generator");
         frame.setLayout(new BorderLayout());
 
-        controlPanel = new JPanel();
         gridPanel = new JPanel();
 
         gridPanel.setLayout(new GridLayout(generator.getRows(), generator.getColumns(), 1, 1));
 
-        frame.add(controlPanel, BorderLayout.WEST);
         frame.add(gridPanel, BorderLayout.CENTER);
 
         gridPanel.setBackground(Color.darkGray);
-
-        runButton = new JButton("Run");
-        stopButton = new JButton("Stop");
-        runButton.addActionListener(this);
-        stopButton.addActionListener(this);
-
-        controlPanel.add(runButton);
-        controlPanel.add(stopButton);
-        controlPanel.setBackground(Color.lightGray);
 
         cellPanels = new JPanel[generator.getRows()][generator.getColumns()];
 
@@ -60,33 +52,31 @@ public class GeneratorGUI implements ActionListener {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        timeDelay = new Thread();
-        ////////////////////////////////////////////////////////////////
-        generatorThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runStatus = false;
-                System.out.println("INSIDE THREAD");
+        t = new Thread();
 
-                if (runStatus) {
-                    do {
-                        System.out.println("INSIDE THREAD LOOP");
-                        startGenerationDrawing();
+        /*
+         * This infinite while loop calls the startGenerationDrawing() function
+         * repeatedly with an interval between each call.
+         */
 
-                        try {
-                            timeDelay.sleep(5);
-                        } catch (Exception e) {
-                            e.getMessage();
-                            e.printStackTrace();
-                        }
-                    } while (runStatus);
-                }
+        while(true) {
+            startGenerationDrawing();
+            try {
+                t.sleep(150);
+            } catch(Exception e) {
+                e.printStackTrace();
             }
-        });
-
-        generatorThread.start();
-        ///////////////////////////////////////////////////////////////
+        }
     }
+
+    /*
+     * This is the startGenerationDrawing() function.
+     * It receives the current state of the grid from
+     * the Generator class and draws it on the JFrame
+     * in a JPanel. It uses JPanels to draw the grids.
+     * Black indicates 1 or alive and white indicate 0
+     * or dead.
+     */
 
     private void startGenerationDrawing() {
         System.out.println("StartGenerationDrawing!!");
@@ -108,16 +98,5 @@ public class GeneratorGUI implements ActionListener {
         generator.computeGeneration();
         frame.validate();
         frame.repaint();
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == runButton) {
-            System.out.println("Run Button Clicked!");
-            runStatus = true;
-        }
-        if(e.getSource() == stopButton) {
-            System.out.println("Stop Button Clicked!");
-            runStatus = false;
-        }
     }
 }

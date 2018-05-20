@@ -5,8 +5,8 @@ import java.util.Random;
 public class Generator {
     private Cell[][] grid;
     
-    private final int ROWS = 50;
-    private final int COLUMNS = 50;
+    private final int ROWS = 30;
+    private final int COLUMNS = ROWS;
     
     private int neighbours;
     
@@ -15,14 +15,21 @@ public class Generator {
     /*
      * This is the default constructor of Generator class.
      * It initializes the grid with random states of either 0 or 1.
-     * The edges of the grid are ignored.
+     * The edges of the grid are set to 0.
      */
     
     Generator() {
     	grid = new Cell[ROWS][COLUMNS];
+
+		for(int i = 0; i < ROWS; i++) {
+			for(int j = 0; j < COLUMNS; j++) {
+				grid[i][j] = new Cell(i, j, 0);
+				//System.out.println("Generator Initialized! " + grid[i][j].getState());
+			}
+		}
     	
-    	for(int i = 0; i < ROWS; i++) {
-    		for(int j = 0; j < COLUMNS; j++) {
+    	for(int i = 1; i < ROWS-1; i++) {
+    		for(int j = 1; j < COLUMNS-1; j++) {
     			grid[i][j] = new Cell(i, j, rand.nextInt(2));
 				System.out.println("Generator Initialized! " + grid[i][j].getState());
     		}
