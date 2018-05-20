@@ -11,7 +11,10 @@ public class GeneratorGUI implements ActionListener {
     JPanel controlPanel, gridPanel;
     JPanel[][] cellPanels;
     JButton runButton, stopButton;
-    Thread t;
+    /////////////////////////////////////////////////////
+    Thread timeDelay, generatorThread;
+    private volatile boolean runStatus;
+    /////////////////////////////////////////////////////
 
     Generator generator = new Generator();
 
@@ -51,25 +54,38 @@ public class GeneratorGUI implements ActionListener {
             }
         }
 
-        frame.setSize(600, 485);
+        //frame.setSize(600, 485);
+        frame.pack();
         frame.setResizable(true);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        t = new Thread();
+        timeDelay = new Thread();
+        ////////////////////////////////////////////////////////////////
+        generatorThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runStatus = false;
+                System.out.println("INSIDE THREAD");
 
-        while(true) {
-            startGenerationDrawing();
-            frame.validate();
-            frame.repaint();
-            try{
-                t.sleep(70);
+                if (runStatus) {
+                    do {
+                        System.out.println("INSIDE THREAD LOOP");
+                        startGenerationDrawing();
+
+                        try {
+                            timeDelay.sleep(5);
+                        } catch (Exception e) {
+                            e.getMessage();
+                            e.printStackTrace();
+                        }
+                    } while (runStatus);
+                }
             }
-            catch(Exception e) {
-                e.getMessage();
-                e.getStackTrace();
-            }
-        }
+        });
+
+        generatorThread.start();
+        ///////////////////////////////////////////////////////////////
     }
 
     private void startGenerationDrawing() {
@@ -90,14 +106,18 @@ public class GeneratorGUI implements ActionListener {
 
         System.out.println("Going to computeGeneration!");
         generator.computeGeneration();
+        frame.validate();
+        frame.repaint();
     }
 
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == runButton) {
             System.out.println("Run Button Clicked!");
+            runStatus = true;
         }
         if(e.getSource() == stopButton) {
             System.out.println("Stop Button Clicked!");
+            runStatus = false;
         }
     }
 }

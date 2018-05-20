@@ -5,8 +5,8 @@ import java.util.Random;
 public class Generator {
     private Cell[][] grid;
     
-    private final int ROWS = 20;
-    private final int COLUMNS = 20;
+    private final int ROWS = 50;
+    private final int COLUMNS = 50;
     
     private int neighbours;
     
