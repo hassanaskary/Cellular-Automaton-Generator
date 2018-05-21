@@ -1,24 +1,22 @@
-package generator;
-
 public class Cell {
     private int x;
     private int y;
 
     private int state;
     private int nextState;
-    
+
     Cell(int x, int y, int state) {
-    	this.x = x;
-    	this.y = y;
-    	this.state = state;
-    	this.nextState = 0;
+        this.x = x;
+        this.y = y;
+        this.state = state;
+        this.nextState = 0;
     }
-    
+
     Cell() {
-    	this.x = 0;
-    	this.y = 0;
-    	this.state = 0;
-    	this.nextState = 0;
+        this.x = 0;
+        this.y = 0;
+        this.state = 0;
+        this.nextState = 0;
     }
 
     int getX() {
