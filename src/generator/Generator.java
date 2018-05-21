@@ -9,6 +9,8 @@ public class Generator {
     private final int COLUMNS = ROWS;
     
     private int neighbours;
+
+    private int population, death, birth;
     
     Random rand = new Random();
     
@@ -21,6 +23,10 @@ public class Generator {
     Generator() {
     	grid = new Cell[ROWS][COLUMNS];
 
+    	population = 0;
+    	death = 0;
+    	birth = 0;
+
 		for(int i = 0; i < ROWS; i++) {
 			for(int j = 0; j < COLUMNS; j++) {
 				grid[i][j] = new Cell(i, j, 0);
@@ -31,9 +37,14 @@ public class Generator {
     	for(int i = 1; i < ROWS-1; i++) {
     		for(int j = 1; j < COLUMNS-1; j++) {
     			grid[i][j] = new Cell(i, j, rand.nextInt(2));
-				System.out.println("Generator Initialized! " + grid[i][j].getState());
+				//System.out.println("Generator Initialized! " + grid[i][j].getState());
+                if(grid[i][j].getState() == 1) {
+                    population++;
+                }
     		}
     	}
+
+        System.out.println("initial population = "+population);
     	computeGeneration();
     }
     
@@ -56,46 +67,65 @@ public class Generator {
     
     public void computeGeneration() {
     	neighbours = 0;
-		System.out.println("INSIDE COMPUTE GENERATION!!");
+		//System.out.println("INSIDE COMPUTE GENERATION!!");
     	for(int i = 1; i < ROWS-1; i++) {
     		for(int j = 1; j < COLUMNS-1; j++) {
-				System.out.println("Enterting loop!");
+				//System.out.println("Entering loop!");
+
     			for(int m = -1; m <= 1; m++) {
     				for(int n = -1; n <= 1; n++) {
-						System.out.println("Calculating neighbours!");
+						//System.out.println("Calculating neighbours!");
+
     					neighbours += grid[i+m][j+n].getState();
-						System.out.println("Neighbours! " + neighbours);
+
+						//System.out.println("Neighbours! " + neighbours);
     				}
     			}
     			
     			neighbours = neighbours - grid[i][j].getState();
-				System.out.println("Neighbours again " + neighbours);
+				//System.out.println("Neighbours again " + neighbours);
     			
     			if(grid[i][j].getState() == 1 && neighbours < 2) {
-					System.out.println("DEATH LONELINESS");
+					//System.out.println("DEATH LONELINESS");
+
     				grid[i][j].setNextState(0);
-					System.out.println(grid[i][j].getNextState());
+
+					//System.out.println(grid[i][j].getNextState());
+
+					death++;
     			}
     			else if(grid[i][j].getState() == 1 && neighbours > 3) {
-					System.out.println("DEATH OVERPOPULATION");
+					//System.out.println("DEATH OVERPOPULATION");
+
     				grid[i][j].setNextState(0);
-					System.out.println(grid[i][j].getNextState());
+
+					//System.out.println(grid[i][j].getNextState());
+
+					death++;
     			}
     			else if(grid[i][j].getState() == 0 && neighbours == 3) {
-					System.out.println("BIRTH");
+					//System.out.println("BIRTH");
+
     				grid[i][j].setNextState(1);
-					System.out.println(grid[i][j].getNextState());
+
+					//System.out.println(grid[i][j].getNextState());
+
+					birth++;
     			}
     			else {
-					System.out.println("STASIS");
+					//System.out.println("STASIS");
+
     				grid[i][j].setNextState(grid[i][j].getState());
-					System.out.println(grid[i][j].getNextState());
+
+					//System.out.println(grid[i][j].getNextState());
     			}
 
     			neighbours = 0;
     		}
     	}
 
+        System.out.println("Birth = "+birth);
+        System.out.println("Death = "+death);
 		transferStates();
     }
 
@@ -106,18 +136,26 @@ public class Generator {
      */
     
     private void transferStates() {
-		System.out.println("INSIDE TRANSFER STATES");
+        population = 0;
+		//System.out.println("INSIDE TRANSFER STATES");
     	for(int i = 1; i < ROWS-1; i++) {
     		for(int j = 1; j < COLUMNS-1; j++) {
-				System.out.println("INSIDE TRANSFER LOOP");
+				//System.out.println("INSIDE TRANSFER LOOP");
+
     			grid[i][j].setState(grid[i][j].getNextState());
-				System.out.println(grid[i][j].getState());
+
+				//System.out.println(grid[i][j].getState());
+
+				if(grid[i][j].getState() == 1) {
+				    population++;
+                }
     		}
     	}
+        System.out.println("population = "+population);
     }
     
     public int getGeneration(int i, int j) {
-		System.out.println("Getting Generation! " + grid[i][j].getState());
+		//System.out.println("Getting Generation! " + grid[i][j].getState());
     	return grid[i][j].getState();
 	}
 	
@@ -127,4 +165,8 @@ public class Generator {
 	public int getColumns() {
     	return this.COLUMNS;
 	}
+
+	public int getPopulation() { return this.population; }
+	public int getBirth() { return this.birth; }
+	public int getDeath() { return this.death; }
 }

@@ -5,8 +5,9 @@ import java.awt.*;
 
 public class GeneratorGUI {
     JFrame frame;
-    JPanel gridPanel;
+    JPanel gridPanel, infoPanel;
     JPanel[][] cellPanels;
+    JLabel populationLabel, birthLabel, deathLabel, populationLabelInfo, birthLabelInfo, deathLabelInfo;
 
     Generator generator = new Generator();
 
@@ -30,10 +31,13 @@ public class GeneratorGUI {
         frame.setLayout(new BorderLayout());
 
         gridPanel = new JPanel();
+        infoPanel = new JPanel();
 
         gridPanel.setLayout(new GridLayout(generator.getRows(), generator.getColumns(), 1, 1));
+        infoPanel.setLayout(new GridLayout(1, 6));
 
         frame.add(gridPanel, BorderLayout.CENTER);
+        frame.add(infoPanel, BorderLayout.SOUTH);
 
         gridPanel.setBackground(Color.darkGray);
 
@@ -46,8 +50,22 @@ public class GeneratorGUI {
             }
         }
 
-        //frame.setSize(600, 485);
-        frame.pack();
+        populationLabel = new JLabel("Population: ");
+        birthLabel = new JLabel("Birth: ");
+        deathLabel = new JLabel("Death: ");
+        populationLabelInfo = new JLabel("" + generator.getPopulation());
+        birthLabelInfo = new JLabel("" + generator.getBirth());
+        deathLabelInfo = new JLabel("" + generator.getDeath());
+
+        infoPanel.add(populationLabel);
+        infoPanel.add(populationLabelInfo);
+        infoPanel.add(birthLabel);
+        infoPanel.add(birthLabelInfo);
+        infoPanel.add(deathLabel);
+        infoPanel.add(deathLabelInfo);
+
+        frame.setSize(700, 700);
+        //frame.pack();
         frame.setResizable(true);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,6 +79,9 @@ public class GeneratorGUI {
 
         while(true) {
             startGenerationDrawing();
+            populationLabelInfo.setText(""+generator.getPopulation());
+            birthLabelInfo.setText(""+generator.getBirth());
+            deathLabelInfo.setText(""+generator.getDeath());
             try {
                 t.sleep(150);
             } catch(Exception e) {
@@ -79,22 +100,22 @@ public class GeneratorGUI {
      */
 
     private void startGenerationDrawing() {
-        System.out.println("StartGenerationDrawing!!");
+        //System.out.println("StartGenerationDrawing!!");
         for(int i = 1; i < generator.getRows()-1; i++) {
             for(int j = 1; j < generator.getColumns()-1; j++) {
-                System.out.println("DRAWING!");
+                //System.out.println("DRAWING!");
                 if(generator.getGeneration(i, j) == 1) {
-                    System.out.println("BIRTH DRAWING!");
+                    //System.out.println("BIRTH DRAWING!");
                     cellPanels[i][j].setBackground(Color.black);
                 }
                 else if(generator.getGeneration(i, j) == 0) {
-                    System.out.println("DEATH DRAWING!");
+                    //System.out.println("DEATH DRAWING!");
                     cellPanels[i][j].setBackground(Color.white);
                 }
             }
         }
 
-        System.out.println("Going to computeGeneration!");
+        //System.out.println("Going to computeGeneration!");
         generator.computeGeneration();
         frame.validate();
         frame.repaint();

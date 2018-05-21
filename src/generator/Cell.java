@@ -1,7 +1,6 @@
 package generator;
 
 public class Cell {
-    // private final int WIDTH = 10;
     private int x;
     private int y;
 
