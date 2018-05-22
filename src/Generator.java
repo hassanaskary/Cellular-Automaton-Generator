@@ -15,9 +15,9 @@ public class Generator {
 
         neighbours = population = birth = death = 0;
 
-        for(int i = 0; i < ROWS; i++) {
-            for(int j = 0; j < COLUMNS; j++) {
-                cells[i][j] = new Cell(i, j, 0);
+        for(int row = 0; row < ROWS; row++) {
+            for(int column = 0; column < COLUMNS; column++) {
+                cells[row][column] = new Cell(row, column, 0);
             }
         }
     }
@@ -95,6 +95,18 @@ public class Generator {
         for(int row = 1; row < ROWS-1; row++) {
             for(int column = 1; column < COLUMNS-1; column++) {
                 cells[row][column].setState(rand.nextInt(2));
+
+                if(cells[row][column].getState() == 1) {
+                    population++;
+                }
+            }
+        }
+    }
+
+    public void clearConfiguration() {
+        for(int row = 0; row < ROWS; row++) {
+            for(int column = 0; column < COLUMNS; column++) {
+                cells[row][column].setState(0);
 
                 if(cells[row][column].getState() == 1) {
                     population++;

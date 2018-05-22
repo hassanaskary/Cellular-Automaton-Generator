@@ -12,12 +12,12 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
     int column, row;
     Generator generator;
     JPanel controlInfoPanel;
-    JButton startBtn, stopBtn, stepBtn, randomBtn;
+    JButton startBtn, stopBtn, stepBtn, randomBtn, clearBtn;
     JLabel populationInfo, birthInfo, deathInfo, populationInfoValue, birthInfoValue, deathInfoValue;
     boolean runStatus;
 
     GeneratorGUI() {
-        frame = new JFrame("Cellular Automaton Generator with a Vengeance");
+        frame = new JFrame("Cellular Automaton Generator");
         frame.setSize(600, 600);
         //frame.pack();
         frame.setLayout(new BorderLayout());
@@ -45,6 +45,7 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         stopBtn = new JButton("Stop");
         stepBtn = new JButton("Step");
         randomBtn = new JButton("Random");
+        clearBtn = new JButton("Clear");
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5,5,5,5);
@@ -86,15 +87,20 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         gbc.gridy = 1;
         controlInfoPanel.add(stepBtn, gbc);
 
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         gbc.gridx = 2;
         gbc.gridy = 2;
         controlInfoPanel.add(randomBtn, gbc);
+
+        gbc.gridx = 3;
+        gbc.gridy = 2;
+        controlInfoPanel.add(clearBtn, gbc);
 
         startBtn.addActionListener(this);
         stopBtn.addActionListener(this);
         stepBtn.addActionListener(this);
         randomBtn.addActionListener(this);
+        clearBtn.addActionListener(this);
 
         frame.add(controlInfoPanel, BorderLayout.SOUTH);
 
@@ -105,6 +111,22 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
 
     private void generateAndDraw() {
         generator.computeGeneration();
+        populationInfoValue.setText(""+generator.getPopulation());
+        birthInfoValue.setText(""+generator.getBirth());
+        deathInfoValue.setText(""+generator.getDeath());
+        frame.repaint();
+    }
+
+    private void randomInitialCondition() {
+        generator.randomConfiguration();
+        populationInfoValue.setText(""+generator.getPopulation());
+        birthInfoValue.setText(""+generator.getBirth());
+        deathInfoValue.setText(""+generator.getDeath());
+        frame.repaint();
+    }
+
+    private void clearGrid() {
+        generator.clearConfiguration();
         populationInfoValue.setText(""+generator.getPopulation());
         birthInfoValue.setText(""+generator.getBirth());
         deathInfoValue.setText(""+generator.getDeath());
@@ -161,11 +183,10 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
             runStatus = false;
         }
         else if(actionEvent.getSource() == randomBtn) {
-            generator.randomConfiguration();
-            populationInfoValue.setText(""+generator.getPopulation());
-            birthInfoValue.setText(""+generator.getBirth());
-            deathInfoValue.setText(""+generator.getDeath());
-            frame.repaint();
+            randomInitialCondition();
+        }
+        else if(actionEvent.getSource() == clearBtn) {
+            clearGrid();
         }
     }
 

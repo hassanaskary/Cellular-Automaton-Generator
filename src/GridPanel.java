@@ -37,7 +37,7 @@ public class GridPanel extends JPanel {
             }
         }
 
-        g.setColor(Color.BLACK);
+        g.setColor(Color.lightGray);
 
         // Vertical line drawing
         for(int x = 0; x < generator.getColumns() + 1; x++) {
