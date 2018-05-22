@@ -26,6 +26,7 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         generator = new Generator();
 
         gridPanel = new GridPanel(generator);
+        //gridPanel.setBackground(Color.white);
         frame.add(gridPanel, BorderLayout.CENTER);
         gridPanel.addMouseListener(this);
 
@@ -122,6 +123,7 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         populationInfoValue.setText(""+generator.getPopulation());
         birthInfoValue.setText(""+generator.getBirth());
         deathInfoValue.setText(""+generator.getDeath());
+        runStatus = false;
         frame.repaint();
     }
 
@@ -130,6 +132,7 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         populationInfoValue.setText(""+generator.getPopulation());
         birthInfoValue.setText(""+generator.getBirth());
         deathInfoValue.setText(""+generator.getDeath());
+        runStatus = false;
         frame.repaint();
     }
 
@@ -171,6 +174,7 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource() == stepBtn) {
             generateAndDraw();
+            runStatus = false;
         }
         else if(actionEvent.getSource() == startBtn) {
             if(runStatus == false) {

@@ -20,7 +20,6 @@ public class GridPanel extends JPanel {
         System.out.println("GridPanel width "+this.getWidth());
         System.out.println("GridPanel height "+this.getHeight());
 
-
         /*
          * columns or vertical lines is cells[0].length it is with reference to x coordinate
          * rows or horizontal lines is cells.length it is with reference to y coordinate
