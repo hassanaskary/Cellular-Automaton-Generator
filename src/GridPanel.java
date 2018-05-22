@@ -32,12 +32,12 @@ public class GridPanel extends JPanel {
             for(int column = 0; column < generator.getColumns(); column++) {
 
                 if(generator.getState(row, column) == 1) {
-                    g.fillRect((int)Math.round(column * cellWidth), (int)Math.round(row * cellHeight), (int)cellWidth, (int)cellHeight);
+                    g.fillRect((int)Math.round(column * cellWidth), (int)Math.round(row * cellHeight), (int)cellWidth+1, (int)cellHeight+1);
                 }
             }
         }
 
-        g.setColor(Color.lightGray);
+        g.setColor(Color.BLACK);
 
         // Vertical line drawing
         for(int x = 0; x < generator.getColumns() + 1; x++) {
