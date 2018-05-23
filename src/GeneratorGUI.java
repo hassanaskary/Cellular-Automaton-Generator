@@ -12,7 +12,7 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
     int column, row;
     Generator generator;
     JPanel controlInfoPanel;
-    JButton startBtn, stopBtn, stepBtn, randomBtn, clearBtn;
+    JButton startBtn, stopBtn, stepBtn, randomBtn, clearBtn, aboutBtn;
     JLabel populationInfo, birthInfo, deathInfo, populationInfoValue, birthInfoValue, deathInfoValue;
     boolean runStatus;
 
@@ -47,6 +47,7 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         stepBtn = new JButton("Step");
         randomBtn = new JButton("Random");
         clearBtn = new JButton("Clear");
+        aboutBtn = new JButton("About");
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5,5,5,5);
@@ -97,11 +98,16 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         gbc.gridy = 2;
         controlInfoPanel.add(clearBtn, gbc);
 
+        gbc.gridx = 4;
+        gbc.gridy = 2;
+        controlInfoPanel.add(aboutBtn, gbc);
+
         startBtn.addActionListener(this);
         stopBtn.addActionListener(this);
         stepBtn.addActionListener(this);
         randomBtn.addActionListener(this);
         clearBtn.addActionListener(this);
+        aboutBtn.addActionListener(this);
 
         frame.add(controlInfoPanel, BorderLayout.SOUTH);
 
@@ -192,6 +198,9 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         else if(actionEvent.getSource() == clearBtn) {
             clearGrid();
         }
+        else if(actionEvent.getSource() == aboutBtn) {
+           aboutPageInit();
+        }
     }
 
     @Override
@@ -204,5 +213,60 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void aboutPageInit() {
+        JFrame aboutPage = new JFrame("About");
+        aboutPage.setSize(500, 400);
+        aboutPage.setDefaultCloseOperation(aboutPage.DISPOSE_ON_CLOSE);
+        aboutPage.setLayout(new BorderLayout());
+        JPanel panel = new JPanel();
+        aboutPage.add(panel, BorderLayout.CENTER);
+        panel.setLayout(new GridBagLayout());
+        JScrollPane scrPane = new JScrollPane(panel,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        aboutPage.add(scrPane);
+
+        GridBagConstraints gbc1 = new GridBagConstraints();
+
+        gbc1.fill = GridBagConstraints.HORIZONTAL;
+        gbc1.insets = new Insets(5,5,5,5);
+
+        JLabel aboutPageHeading = new JLabel("<html><h1>Cellular Automaton Generator</h1>" +
+                "<p>Made by Hassan Askary<br></br>" +
+                "BS Computer and Information Sciences 2017-2021<br></br>" +
+                "Department of Computer and Information Sciences<br></br>" +
+                "Pakistan Institute of Engineering and Applied Sciences</p></html>");
+
+        String pt1 = "<html><body width ='" + 400 +
+                "'><h2>Cellular Automaton</h2>" +
+                "<p>A cellular automaton (plural: cellular automata, abbreviation: CA) is a discrete model studied in computer science, mathematics, physics, complexity science, theoretical biology and microstructure modeling. Cellular automata are also called cellular spaces, tessellation automata, homogeneous structures, cellular structures, tessellation structures, and iterative arrays.</p><br></br>" +
+                "<p>A cellular automaton consists of a regular grid of cells, each in one of a finite number of states, such as on and off. The grid can be in any finite number of dimensions. For each cell, a set of cells called its neighborhood is defined relative to the specified cell. An initial state (time t = 0) is selected by assigning a state for each cell. A new generation is created (advancing t by 1), according to some fixed rule (generally, a mathematical function) that determines the new state of each cell in terms of the current state of the cell and the states of the cells in its neighborhood.</p><br></br>" +
+                "<p>The concept was originally discovered in the 1940s by Stanislaw Ulam and John von Neumann while they were contemporaries at Los Alamos National Laboratory. While studied by some throughout the 1950s and 1960s, it was not until the 1970s and Conway's Game of Life, a two-dimensional cellular automaton, that interest in the subject expanded beyond academia. In the 1980s, Stephen Wolfram engaged in a systematic study of one-dimensional cellular automata, or what he calls elementary cellular automata; his research assistant Matthew Cook showed that one of these rules is Turing-complete. Wolfram published A New Kind of Science in 2002, claiming that cellular automata have applications in many fields of science. These include computer processors and cryptography.</p>" +
+                "<h2>Conway's Game of Life</h2>" +
+                "<p>The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970.</p><br></br>" +
+                "<p>The game is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves, or, for advanced players, by creating patterns with particular properties.</p>" +
+                "<h3>Rules</h3>" +
+                "<p>The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells, each of which is in one of two possible states, alive or dead, (or populated and unpopulated, respectively). Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent. At each step in time, the following transitions occur:</p><br></br>" +
+                "<ol>" +
+                "<li>Any live cell with fewer than two live neighbors dies, as if by under population.</li>" +
+                "<li>Any live cell with two or three live neighbors lives on to the next generation.</li>" +
+                "<li>Any live cell with more than three live neighbors dies, as if by overpopulation.</li>" +
+                "<li>Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.</li>" +
+                "</ol><br></br>" +
+                "<p>The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed; births and deaths occur simultaneously, and the discrete moment at which this happens is sometimes called a tick. Each generation is a pure function of the preceding one. The rules continue to be applied repeatedly to create further generations.</p>";
+
+        JLabel aboutPageContent = new JLabel(pt1);
+
+        gbc1.gridx = 0;
+        gbc1.gridy = 0;
+        panel.add(aboutPageHeading, gbc1);
+
+        gbc1.gridx = 0;
+        gbc1.gridy = 1;
+        panel.add(aboutPageContent, gbc1);
+
+        aboutPage.setVisible(true);
     }
 }
