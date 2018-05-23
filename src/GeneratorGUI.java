@@ -13,7 +13,7 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
     Generator generator;
     JPanel controlInfoPanel;
     JButton startBtn, stopBtn, stepBtn, randomBtn, clearBtn, aboutBtn;
-    JLabel populationInfo, birthInfo, deathInfo, populationInfoValue, birthInfoValue, deathInfoValue;
+    JLabel populationInfo, birthInfo, deathInfo, populationInfoValue, birthInfoValue, deathInfoValue, preset;
     boolean runStatus;
     JComboBox presetInitialCondiotions;
     String[] presets;
@@ -43,6 +43,7 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         populationInfoValue = new JLabel(""+generator.getPopulation());
         birthInfoValue = new JLabel(""+generator.getBirth());
         deathInfoValue = new JLabel(""+generator.getDeath());
+        preset = new JLabel("Preset Initial Conditions");
 
         startBtn = new JButton("Start");
         stopBtn = new JButton("Stop");
@@ -51,7 +52,7 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         clearBtn = new JButton("Clear");
         aboutBtn = new JButton("About");
 
-        presets = new String[]{"Glider", "Lightweight spaceship", "Pulsar", "Blinker"};
+        presets = new String[]{"None", "Glider", "Lightweight spaceship", "Pulsar", "Blinker"};
         presetInitialCondiotions = new JComboBox(presets);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -95,6 +96,10 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         controlInfoPanel.add(stepBtn, gbc);
 
         gbc.gridwidth = 1;
+        gbc.gridx = 4;
+        gbc.gridy = 1;
+        controlInfoPanel.add(preset, gbc);
+
         gbc.gridx = 2;
         gbc.gridy = 2;
         controlInfoPanel.add(randomBtn, gbc);
@@ -105,6 +110,10 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
 
         gbc.gridx = 4;
         gbc.gridy = 2;
+        controlInfoPanel.add(presetInitialCondiotions, gbc);
+
+        gbc.gridx = 5;
+        gbc.gridy = 2;
         controlInfoPanel.add(aboutBtn, gbc);
 
         startBtn.addActionListener(this);
@@ -113,111 +122,13 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         randomBtn.addActionListener(this);
         clearBtn.addActionListener(this);
         aboutBtn.addActionListener(this);
+        presetInitialCondiotions.addActionListener(this);
 
         frame.add(controlInfoPanel, BorderLayout.SOUTH);
 
         runStatus = false;
 
         frame.setVisible(true);
-    }
-
-    private void generateAndDraw() {
-        generator.computeGeneration();
-        populationInfoValue.setText(""+generator.getPopulation());
-        birthInfoValue.setText(""+generator.getBirth());
-        deathInfoValue.setText(""+generator.getDeath());
-        frame.repaint();
-    }
-
-    private void randomInitialCondition() {
-        generator.randomConfiguration();
-        populationInfoValue.setText(""+generator.getPopulation());
-        birthInfoValue.setText(""+generator.getBirth());
-        deathInfoValue.setText(""+generator.getDeath());
-        runStatus = false;
-        frame.repaint();
-    }
-
-    private void clearGrid() {
-        generator.clearConfiguration();
-        populationInfoValue.setText(""+generator.getPopulation());
-        birthInfoValue.setText(""+generator.getBirth());
-        deathInfoValue.setText(""+generator.getDeath());
-        runStatus = false;
-        frame.repaint();
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {}
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-        System.out.println(mouseEvent.getX() + ", " + mouseEvent.getY());
-
-        cellWidth = (double)gridPanel.getWidth() / generator.getColumns();
-        cellHeight = (double)gridPanel.getHeight() / generator.getRows();
-
-        column = Math.min(generator.getColumns() - 1, (int)(mouseEvent.getX() / cellWidth));
-        row = Math.min(generator.getRows() - 1, (int)(mouseEvent.getY() / cellHeight));
-
-        System.out.println(row + ", " + column);
-
-        if(generator.getState(row, column) == 0) {
-            generator.setState(row, column, 1);
-        }
-        else if(generator.getState(row, column) == 1) {
-            generator.setState(row, column,0);
-        }
-
-        frame.repaint();
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {}
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {}
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {}
-
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        if(actionEvent.getSource() == stepBtn) {
-            generateAndDraw();
-            runStatus = false;
-        }
-        else if(actionEvent.getSource() == startBtn) {
-            if(runStatus == false) {
-                runStatus = true;
-                Thread t = new Thread(this);
-                t.start();
-            }
-        }
-        else if(actionEvent.getSource() == stopBtn) {
-            runStatus = false;
-        }
-        else if(actionEvent.getSource() == randomBtn) {
-            randomInitialCondition();
-        }
-        else if(actionEvent.getSource() == clearBtn) {
-            clearGrid();
-        }
-        else if(actionEvent.getSource() == aboutBtn) {
-           aboutPageInit();
-        }
-    }
-
-    @Override
-    public void run() {
-        while(runStatus == true) {
-            generateAndDraw();
-            try {
-                Thread.sleep(500);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private void aboutPageInit() {
@@ -246,8 +157,8 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
                 "Department of Computer and Information Sciences<br></br>" +
                 "Pakistan Institute of Engineering and Applied Sciences</p></html>");
 
-        ImageIcon imageicon1 = new ImageIcon("Die_hard.gif");
-        ImageIcon imageicon2 = new ImageIcon("Gospers_glider_gun.gif");
+        ImageIcon imageicon1 = new ImageIcon("Resources/Die_hard.gif");
+        ImageIcon imageicon2 = new ImageIcon("Resources/Gospers_glider_gun.gif");
 
         String pt1 = "<html><body width ='" + width + "'><h2>Cellular Automaton</h2>";
         JLabel image1 = new JLabel(imageicon1);
@@ -302,5 +213,159 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         panel.add(aboutPageContent3, gbc1);
 
         aboutPage.setVisible(true);
+    }
+
+    private void generateAndDraw() {
+        generator.computeGeneration();
+        populationInfoValue.setText(""+generator.getPopulation());
+        birthInfoValue.setText(""+generator.getBirth());
+        deathInfoValue.setText(""+generator.getDeath());
+        frame.repaint();
+    }
+
+    private void randomInitialCondition() {
+        generator.randomConfiguration();
+        populationInfoValue.setText(""+generator.getPopulation());
+        birthInfoValue.setText(""+generator.getBirth());
+        deathInfoValue.setText(""+generator.getDeath());
+        runStatus = false;
+        frame.repaint();
+    }
+
+    private void clearGrid() {
+        generator.clearConfiguration();
+        populationInfoValue.setText(""+generator.getPopulation());
+        birthInfoValue.setText(""+generator.getBirth());
+        deathInfoValue.setText(""+generator.getDeath());
+        runStatus = false;
+        frame.repaint();
+    }
+
+    private void drawGlider() {
+        generator.GliderConfiguration();
+        populationInfoValue.setText(""+generator.getPopulation());
+        birthInfoValue.setText(""+generator.getBirth());
+        deathInfoValue.setText(""+generator.getDeath());
+        runStatus = false;
+        frame.repaint();
+    }
+
+    private void drawPulsar() {
+        generator.PulsarConfiguration();
+        populationInfoValue.setText(""+generator.getPopulation());
+        birthInfoValue.setText(""+generator.getBirth());
+        deathInfoValue.setText(""+generator.getDeath());
+        runStatus = false;
+        frame.repaint();
+    }
+
+    private void drawLightweightSpaceship() {
+        generator.LightweightSpaceshipConfiguration();
+        populationInfoValue.setText(""+generator.getPopulation());
+        birthInfoValue.setText(""+generator.getBirth());
+        deathInfoValue.setText(""+generator.getDeath());
+        runStatus = false;
+        frame.repaint();
+    }
+
+    private void drawBlinker() {
+        generator.BlinkerConfiguration();
+        populationInfoValue.setText(""+generator.getPopulation());
+        birthInfoValue.setText(""+generator.getBirth());
+        deathInfoValue.setText(""+generator.getDeath());
+        runStatus = false;
+        frame.repaint();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {}
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+        //System.out.println(mouseEvent.getX() + ", " + mouseEvent.getY());
+
+        cellWidth = (double)gridPanel.getWidth() / generator.getColumns();
+        cellHeight = (double)gridPanel.getHeight() / generator.getRows();
+
+        column = Math.min(generator.getColumns() - 1, (int)(mouseEvent.getX() / cellWidth));
+        row = Math.min(generator.getRows() - 1, (int)(mouseEvent.getY() / cellHeight));
+
+        //System.out.println("RowsCOlumn = "+ row + ", " + column);
+
+        if(generator.getState(row, column) == 0) {
+            generator.setState(row, column, 1);
+        }
+        else if(generator.getState(row, column) == 1) {
+            generator.setState(row, column,0);
+        }
+
+        frame.repaint();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {}
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {}
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {}
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        if(actionEvent.getSource() == stepBtn) {
+            generateAndDraw();
+            runStatus = false;
+        }
+        else if(actionEvent.getSource() == startBtn) {
+            if(runStatus == false) {
+                runStatus = true;
+                Thread t = new Thread(this);
+                t.start();
+            }
+        }
+        else if(actionEvent.getSource() == stopBtn) {
+            runStatus = false;
+        }
+        else if(actionEvent.getSource() == randomBtn) {
+            randomInitialCondition();
+        }
+        else if(actionEvent.getSource() == clearBtn) {
+            clearGrid();
+        }
+        else if(actionEvent.getSource() == aboutBtn) {
+           aboutPageInit();
+        }
+        else if(actionEvent.getSource() == presetInitialCondiotions) {
+            String selectedItem = (String) presetInitialCondiotions.getSelectedItem();
+            if(selectedItem.equals("Glider")) {
+                drawGlider();
+                //System.out.println("JCOMBOBOX GLIDER");
+            }
+            else if(selectedItem.equals("Lightweight spaceship")) {
+                drawLightweightSpaceship();
+                //System.out.println("JCOMBOBOX LIGHTWEIGHT SPACESHIP");
+            }
+            else if(selectedItem.equals("Pulsar")) {
+                drawPulsar();
+                //System.out.println("JCOMBOBOX PULSAR");
+            }
+            else if(selectedItem.equals("Blinker")) {
+                drawBlinker();
+                //System.out.println("JCOMBOBOX BLINKER");
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        while(runStatus == true) {
+            generateAndDraw();
+            try {
+                Thread.sleep(500);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

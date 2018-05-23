@@ -15,10 +15,10 @@ public class GridPanel extends JPanel {
         cellWidth = (double)this.getWidth() / generator.getColumns();
         cellHeight = (double)this.getHeight() / generator.getRows();
 
-        System.out.println("width "+generator.getColumns());
-        System.out.println("height "+generator.getRows());
-        System.out.println("GridPanel width "+this.getWidth());
-        System.out.println("GridPanel height "+this.getHeight());
+        //System.out.println("width "+generator.getColumns());
+        //System.out.println("height "+generator.getRows());
+        //System.out.println("GridPanel width "+this.getWidth());
+        //System.out.println("GridPanel height "+this.getHeight());
 
         /*
          * columns or vertical lines is cells[0].length it is with reference to x coordinate

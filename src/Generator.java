@@ -60,17 +60,13 @@ public class Generator {
     }
 
     private void transferStates() {
-        population = 0;
-
         for(int row = 1; row < ROWS-1; row++) {
             for(int column = 1; column < COLUMNS-1; column++) {
                 cells[row][column].setState(cells[row][column].getNextState());
-
-                if(cells[row][column].getState() == 1) {
-                    population++;
-                }
             }
         }
+
+        countPopulation();
     }
 
     public int getState(int row, int column) {
@@ -95,19 +91,121 @@ public class Generator {
         for(int row = 1; row < ROWS-1; row++) {
             for(int column = 1; column < COLUMNS-1; column++) {
                 cells[row][column].setState(rand.nextInt(2));
-
-                if(cells[row][column].getState() == 1) {
-                    population++;
-                }
             }
         }
+
+        countPopulation();
     }
 
     public void clearConfiguration() {
         for(int row = 0; row < ROWS; row++) {
             for(int column = 0; column < COLUMNS; column++) {
                 cells[row][column].setState(0);
+            }
+        }
 
+        birth = 0;
+        death = 0;
+        countPopulation();
+    }
+
+    public void GliderConfiguration() {
+        clearConfiguration();
+
+        cells[10][13].setState(1);
+        cells[11][13].setState(1);
+        cells[12][13].setState(1);
+        cells[12][12].setState(1);
+        cells[11][11].setState(1);
+
+        countPopulation();
+    }
+
+    public void PulsarConfiguration() {
+        clearConfiguration();
+
+        cells[8][10].setState(1);
+        cells[9][10].setState(1);
+        cells[10][10].setState(1);
+        cells[11][9].setState(1);
+        cells[11][8].setState(1);
+        cells[11][7].setState(1);
+        cells[10][5].setState(1);
+        cells[9][5].setState(1);
+        cells[8][5].setState(1);
+        cells[6][9].setState(1);
+        cells[6][8].setState(1);
+        cells[6][7].setState(1);
+        cells[13][7].setState(1);
+        cells[13][8].setState(1);
+        cells[13][9].setState(1);
+        cells[14][10].setState(1);
+        cells[15][10].setState(1);
+        cells[16][10].setState(1);
+        cells[18][9].setState(1);
+        cells[18][8].setState(1);
+        cells[18][7].setState(1);
+        cells[14][5].setState(1);
+        cells[15][5].setState(1);
+        cells[16][5].setState(1);
+        cells[14][12].setState(1);
+        cells[15][12].setState(1);
+        cells[16][12].setState(1);
+        cells[13][13].setState(1);
+        cells[13][14].setState(1);
+        cells[13][15].setState(1);
+        cells[18][13].setState(1);
+        cells[18][14].setState(1);
+        cells[18][15].setState(1);
+        cells[14][17].setState(1);
+        cells[15][17].setState(1);
+        cells[16][17].setState(1);
+        cells[11][13].setState(1);
+        cells[11][14].setState(1);
+        cells[11][15].setState(1);
+        cells[10][12].setState(1);
+        cells[9][12].setState(1);
+        cells[8][12].setState(1);
+        cells[6][13].setState(1);
+        cells[6][14].setState(1);
+        cells[6][15].setState(1);
+        cells[10][17].setState(1);
+        cells[9][17].setState(1);
+        cells[8][17].setState(1);
+
+        countPopulation();
+    }
+
+    public void LightweightSpaceshipConfiguration() {
+        clearConfiguration();
+
+        cells[10][11].setState(1);
+        cells[11][11].setState(1);
+        cells[12][11].setState(1);
+        cells[12][12].setState(1);
+        cells[9][12].setState(1);
+        cells[9][15].setState(1);
+        cells[11][15].setState(1);
+        cells[12][13].setState(1);
+        cells[12][14].setState(1);
+
+        countPopulation();
+    }
+
+    public void BlinkerConfiguration() {
+        clearConfiguration();
+
+        cells[9][13].setState(1);
+        cells[10][13].setState(1);
+        cells[11][13].setState(1);
+
+        countPopulation();
+    }
+
+    private void countPopulation() {
+        population = 0;
+        for(int row = 0; row < ROWS; row++) {
+            for(int column = 0; column < COLUMNS; column++) {
                 if(cells[row][column].getState() == 1) {
                     population++;
                 }
