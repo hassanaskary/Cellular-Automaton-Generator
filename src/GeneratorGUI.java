@@ -15,6 +15,8 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
     JButton startBtn, stopBtn, stepBtn, randomBtn, clearBtn, aboutBtn;
     JLabel populationInfo, birthInfo, deathInfo, populationInfoValue, birthInfoValue, deathInfoValue;
     boolean runStatus;
+    JComboBox presetInitialCondiotions;
+    String[] presets;
 
     GeneratorGUI() {
         frame = new JFrame("Cellular Automaton Generator");
@@ -48,6 +50,9 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         randomBtn = new JButton("Random");
         clearBtn = new JButton("Clear");
         aboutBtn = new JButton("About");
+
+        presets = new String[]{"Glider", "Lightweight spaceship", "Pulsar", "Blinker"};
+        presetInitialCondiotions = new JComboBox(presets);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5,5,5,5);
@@ -228,6 +233,8 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         aboutPage.add(scrPane);
 
+        int width = aboutPage.getWidth() - 100;
+
         GridBagConstraints gbc1 = new GridBagConstraints();
 
         gbc1.fill = GridBagConstraints.HORIZONTAL;
@@ -239,13 +246,17 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
                 "Department of Computer and Information Sciences<br></br>" +
                 "Pakistan Institute of Engineering and Applied Sciences</p></html>");
 
-        String pt1 = "<html><body width ='" + 400 +
-                "'><h2>Cellular Automaton</h2>" +
-                "<p>A cellular automaton (plural: cellular automata, abbreviation: CA) is a discrete model studied in computer science, mathematics, physics, complexity science, theoretical biology and microstructure modeling. Cellular automata are also called cellular spaces, tessellation automata, homogeneous structures, cellular structures, tessellation structures, and iterative arrays.</p><br></br>" +
+        ImageIcon imageicon1 = new ImageIcon("Die_hard.gif");
+        ImageIcon imageicon2 = new ImageIcon("Gospers_glider_gun.gif");
+
+        String pt1 = "<html><body width ='" + width + "'><h2>Cellular Automaton</h2>";
+        JLabel image1 = new JLabel(imageicon1);
+        String pt12 = "<html><body width ='" + width + "'><p>A cellular automaton (plural: cellular automata, abbreviation: CA) is a discrete model studied in computer science, mathematics, physics, complexity science, theoretical biology and microstructure modeling. Cellular automata are also called cellular spaces, tessellation automata, homogeneous structures, cellular structures, tessellation structures, and iterative arrays.</p><br></br>" +
                 "<p>A cellular automaton consists of a regular grid of cells, each in one of a finite number of states, such as on and off. The grid can be in any finite number of dimensions. For each cell, a set of cells called its neighborhood is defined relative to the specified cell. An initial state (time t = 0) is selected by assigning a state for each cell. A new generation is created (advancing t by 1), according to some fixed rule (generally, a mathematical function) that determines the new state of each cell in terms of the current state of the cell and the states of the cells in its neighborhood.</p><br></br>" +
-                "<p>The concept was originally discovered in the 1940s by Stanislaw Ulam and John von Neumann while they were contemporaries at Los Alamos National Laboratory. While studied by some throughout the 1950s and 1960s, it was not until the 1970s and Conway's Game of Life, a two-dimensional cellular automaton, that interest in the subject expanded beyond academia. In the 1980s, Stephen Wolfram engaged in a systematic study of one-dimensional cellular automata, or what he calls elementary cellular automata; his research assistant Matthew Cook showed that one of these rules is Turing-complete. Wolfram published A New Kind of Science in 2002, claiming that cellular automata have applications in many fields of science. These include computer processors and cryptography.</p>" +
-                "<h2>Conway's Game of Life</h2>" +
-                "<p>The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970.</p><br></br>" +
+                "<p>The concept was originally discovered in the 1940s by Stanislaw Ulam and John von Neumann while they were contemporaries at Los Alamos National Laboratory. While studied by some throughout the 1950s and 1960s, it was not until the 1970s and Conway's Game of Life, a two-dimensional cellular automaton, that interest in the subject expanded beyond academia. In the 1980s, Stephen Wolfram engaged in a systematic study of one-dimensional cellular automata, or what he calls elementary cellular automata; his research assistant Matthew Cook showed that one of these rules is Turing-complete. Wolfram published A New Kind of Science in 2002, claiming that cellular automata have applications in many fields of science. These include computer processors and cryptography.</p>";
+        String pt2 = "<html><body width = '" + width + "'><h2>Conway's Game of Life</h2>";
+        JLabel image2 = new JLabel(imageicon2);
+        String pt3 = "<html><body width = '" + width + "'><p>The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970.</p><br></br>" +
                 "<p>The game is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves, or, for advanced players, by creating patterns with particular properties.</p>" +
                 "<h3>Rules</h3>" +
                 "<p>The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells, each of which is in one of two possible states, alive or dead, (or populated and unpopulated, respectively). Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent. At each step in time, the following transitions occur:</p><br></br>" +
@@ -257,7 +268,10 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
                 "</ol><br></br>" +
                 "<p>The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed; births and deaths occur simultaneously, and the discrete moment at which this happens is sometimes called a tick. Each generation is a pure function of the preceding one. The rules continue to be applied repeatedly to create further generations.</p>";
 
-        JLabel aboutPageContent = new JLabel(pt1);
+        JLabel aboutPageContent1 = new JLabel(pt1);
+        JLabel aboutPageContent12 = new JLabel(pt12);
+        JLabel aboutPageContent2 = new JLabel(pt2);
+        JLabel aboutPageContent3 = new JLabel(pt3);
 
         gbc1.gridx = 0;
         gbc1.gridy = 0;
@@ -265,7 +279,27 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
 
         gbc1.gridx = 0;
         gbc1.gridy = 1;
-        panel.add(aboutPageContent, gbc1);
+        panel.add(aboutPageContent1, gbc1);
+
+        gbc1.gridx = 0;
+        gbc1.gridy = 2;
+        panel.add(image1, gbc1);
+
+        gbc1.gridx = 0;
+        gbc1.gridy = 3;
+        panel.add(aboutPageContent12, gbc1);
+
+        gbc1.gridx = 0;
+        gbc1.gridy = 4;
+        panel.add(aboutPageContent2, gbc1);
+
+        gbc1.gridx = 0;
+        gbc1.gridy = 5;
+        panel.add(image2, gbc1);
+
+        gbc1.gridx = 0;
+        gbc1.gridy = 6;
+        panel.add(aboutPageContent3, gbc1);
 
         aboutPage.setVisible(true);
     }
