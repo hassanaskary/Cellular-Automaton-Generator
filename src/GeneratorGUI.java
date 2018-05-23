@@ -151,11 +151,12 @@ public class GeneratorGUI implements MouseListener, ActionListener, Runnable {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         gbc1.insets = new Insets(5,5,5,5);
 
-        JLabel aboutPageHeading = new JLabel("<html><h1>Cellular Automaton Generator</h1>" +
+        JLabel aboutPageHeading = new JLabel("<html><body width = '"+ width+"'><h1>Cellular Automaton Generator</h1>" +
                 "<p>Made by Hassan Askary<br></br>" +
                 "BS Computer and Information Sciences 2017-2021<br></br>" +
                 "Department of Computer and Information Sciences<br></br>" +
-                "Pakistan Institute of Engineering and Applied Sciences</p></html>");
+                "Pakistan Institute of Engineering and Applied Sciences</p><br></br>" +
+                "<p>This was made as a semester project for Object-Oriented Programming course in 2nd semester.</p></html>");
 
         ImageIcon imageicon1 = new ImageIcon("Resources/Die_hard.gif");
         ImageIcon imageicon2 = new ImageIcon("Resources/Gospers_glider_gun.gif");
