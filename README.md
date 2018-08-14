@@ -11,7 +11,7 @@ A Cellular Automaton Generator that can generate Conway's Game of Life. This was
 - About page
 
 ## Requirements
-- JRE 8
+- JDK 8
 
 ## Usage
 - Clone/Download the repository
